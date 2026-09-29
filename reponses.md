@@ -48,3 +48,11 @@ kubectl delete pvc db-data
 ```
 Parce que le PVC est l’objet qui “demande” le PV, et si le PV a une Reclaim Policy: Delete, alors la suppression du PVC déclenche la suppression du volume sous-jacent.
 
+## Etape 9
+1. Pour 2 replicas :
+    - maxUnavailable: 25% = au plus 1 pod peut être hors service
+    - maxSurge: 25% = au plus 1 pod supplémentaire peut être créé
+
+    Donc le contrôleur peut remplacer un pod sans laisser 0 pod disponible : il garde toujours au moins 1 pod prêt, ce qui explique pourquoi le service est resté disponible pendant la panne.
+
+2. L’historique n’a pas conservé toutes les versions, il garde seulement les plus récentes selon la politique de rollback/cleanup.
