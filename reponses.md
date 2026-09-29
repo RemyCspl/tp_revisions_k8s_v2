@@ -56,3 +56,8 @@ Parce que le PVC est l’objet qui “demande” le PV, et si le PV a une Reclai
     Donc le contrôleur peut remplacer un pod sans laisser 0 pod disponible : il garde toujours au moins 1 pod prêt, ce qui explique pourquoi le service est resté disponible pendant la panne.
 
 2. L’historique n’a pas conservé toutes les versions, il garde seulement les plus récentes selon la politique de rollback/cleanup.
+
+## Etape 10
+1. Sans le header Host, le serveur ne sait pas quel vhost/Ingress matcher. Le Host est nécessaire pour choisir la bonne règle ; sans lui, il tombe sur la règle par défaut ou la route inconnue, donc 404.
+
+2. Sur EKS, c’est généralement l’AWS Load Balancer Controller qui remplace ingress-nginx. Il crée un Application Load Balancer AWS et les règles/targets associés pour router le trafic vers les services.
