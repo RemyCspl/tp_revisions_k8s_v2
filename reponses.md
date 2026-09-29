@@ -61,3 +61,8 @@ Parce que le PVC est l’objet qui “demande” le PV, et si le PV a une Reclai
 1. Sans le header Host, le serveur ne sait pas quel vhost/Ingress matcher. Le Host est nécessaire pour choisir la bonne règle ; sans lui, il tombe sur la règle par défaut ou la route inconnue, donc 404.
 
 2. Sur EKS, c’est généralement l’AWS Load Balancer Controller qui remplace ingress-nginx. Il crée un Application Load Balancer AWS et les règles/targets associés pour router le trafic vers les services.
+
+# Etape 11:
+1. Le HPA calcule : 2 × (165 / 60) = 5.5, donc il veut ~6 replicas si arrondi. Mais il ne peut pas dépasser le maxReplicas ou le nombre réellement possible selon le cluster ; dans votre cas, la cible effective est limitée par la config / la plateforme, donc vous observez 5, pas 6.
+
+2. Il faut utiliser le readinessProbe car le pod est retiré des endpoints (plus de trafic), mais pas redémarré.
