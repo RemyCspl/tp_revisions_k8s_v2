@@ -40,3 +40,11 @@ La colonne 'RESTARTS 0' signifie qu'aucun redémarrage du pod n'a été constat�
 1. DB_SERVICE_HOST et DB_SERVICE_PORT viennent des variables injectées automatiquement par Kubernetes pour un Service. On préfère db parce que c’est un nom DNS stable, indépendant de l’IP, plus lisible et plus robuste.
 
 2. kubectl exec en production ne doit être autorisé qu’aux personnes ayant un besoin réel et un rôle RBAC dédié (SRE/DevOps/platform), jamais à tout le monde. C’est un accès shell dans le conteneur et donc à des données sensibles.
+
+## Etape 8
+1. La commande qui détruit réellement les données est
+```bash
+kubectl delete pvc db-data
+```
+Parce que le PVC est l’objet qui “demande” le PV, et si le PV a une Reclaim Policy: Delete, alors la suppression du PVC déclenche la suppression du volume sous-jacent.
+
